@@ -21,6 +21,8 @@ const Game = require("./game");
 window.addEventListener('DOMContentLoaded', function () {
   const canvasEl = document.getElementById("game-canvas");
   const ctx = canvasEl.getContext("2d");
+  
+  
   const game = new Game();
   const gv = new GameView(game, ctx);
   gv.start();
