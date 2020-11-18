@@ -32,14 +32,14 @@ Game.prototype.draw = function(ctx) {
   ctx.clearRect(0, 0, DIM_X, DIM_Y);
   ctx.fillStyle = "#000000";
   ctx.fillRect(0,0,DIM_X,DIM_Y);
-  this.allObjects().forEach(function(ast) {
-    ast.draw(ctx);
+  this.allObjects().forEach(function(obj) {
+    obj.draw(ctx);
   })
 }
 
 Game.prototype.moveObjects = function(){
-  this.allObjects().forEach(function(ast) {
-  ast.move();
+  this.allObjects().forEach(function(obj) {
+    obj.move();
   })
 }
 

@@ -7,11 +7,20 @@ function GameView(game,ctx){
 
 GameView.prototype.start = function(){
     let that = this;
-setInterval(function(){
-  that.game.step();
-  that.game.draw(that.ctx);
+    this.bindKeyHandlers();
+    setInterval(function(){
+    that.game.step();
+    that.game.draw(that.ctx);
+    }, 20);
+    
+}
 
-}, 20);
+GameView.prototype.bindKeyHandlers = function() {
+  const that = this
+  key('a', function() {that.game.ship.power([-1,0]);});
+  key('d', function() { that.game.ship.power([1, 0]); });
+  key('w', function() { that.game.ship.power([0, -1]); });
+  key('s', function() { that.game.ship.power([0, 1]); });
 }
 
 module.exports = GameView;
