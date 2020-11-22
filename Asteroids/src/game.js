@@ -78,7 +78,7 @@ Game.prototype.checkCollisions = function(){
   
   for (let i = 0; i < objs.length; i++) { // need revisit
     for (let j = i+1; j < objs.length; j++) {
-    if (objs[i].isCollidedWith(objs[j])){
+    if (objs[i].isCollidedWith(objs[j]) && objs[i] instanceof Asteroid){
         objs[i].collideWith(objs[j]);
     }}}
 }

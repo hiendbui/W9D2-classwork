@@ -15,7 +15,7 @@ function Asteroid (data) {
     MovingObject.call(this, data); // not data.pos.pos[0]
     this.color = COLOR;
     this.radius = RADIUS;
-    this.vel = Util.randomVec(3);
+    this.vel = Util.randomVec(2.5);
 
 }
 
