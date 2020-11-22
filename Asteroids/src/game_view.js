@@ -21,6 +21,7 @@ GameView.prototype.bindKeyHandlers = function() {
   key('d', function() { that.game.ship.power([1, 0]); });
   key('w', function() { that.game.ship.power([0, -1]); });
   key('s', function() { that.game.ship.power([0, 1]); });
+  key('space', function () { that.game.ship.fireBullet(); });
 }
 
 module.exports = GameView;

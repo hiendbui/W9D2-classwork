@@ -1,14 +1,16 @@
 const Asteroid = require('./asteroid');
 const Util = require('./util');
 const Ship = require('./ship')
+const Bullet = require('./bullet')
 
 const DIM_X = 500;
 const DIM_Y = 500;
-const NUM_ASTEROIDS = 10;
+const NUM_ASTEROIDS = 7;
 
 function Game() {
     this.asteroids = [];
     this.ship = new Ship({pos: this.randomPosition(), game: this});
+    this.bullets = [];
     this.addAsteroids();
 } 
 
@@ -19,8 +21,18 @@ Game.prototype.addAsteroids = function () {
     }
 }
 
+Game.prototype.add = function(obj) {
+    if (obj instanceof Asteroid) this.asteroids.push(obj);
+    if (obj instanceof Bullet) this.bullets.push(obj);
+}
+
+Game.prototype.remove = function(obj) {
+    if (this.asteroids.indexOf(obj) !== -1) this.asteroids.splice(this.asteroids.indexOf(obj),1);
+    if (this.bullets.indexOf(obj) !== -1) this.bullets.splice(this.bullets.indexOf(obj), 1);
+}
+
 Game.prototype.allObjects = function(){
-    return this.asteroids.concat([this.ship]);
+    return this.asteroids.concat([this.ship], this.bullets);
 }
 
 Game.prototype.randomPosition = function () {
@@ -43,6 +55,9 @@ Game.prototype.moveObjects = function(){
   })
 }
 
+Game.prototype.isOutOfBounds = function(pos) {
+    if (pos[0] < 0 || pos[0] > DIM_X || pos[1] < 0 || pos[1] > DIM_Y) return true;
+}
 Game.prototype.wrap = function(pos){
     if (pos[0] < 0) {
         pos[0] = DIM_X;
@@ -52,7 +67,7 @@ Game.prototype.wrap = function(pos){
 
     if (pos[1] < 0) {
         pos[1] = DIM_Y;
-    } else if (pos[0] > DIM_Y) {
+    } else if (pos[1] > DIM_Y) {
         pos[1] = 0;
     }
     return pos; 
@@ -71,11 +86,16 @@ Game.prototype.checkCollisions = function(){
 Game.prototype.step = function() {
     this.moveObjects();
     this.checkCollisions();
+    if (this.asteroids.length < NUM_ASTEROIDS) {
+        const pos = this.randomPosition();
+        pos[Math.floor(Math.random() * 2)] = 0
+        this.add(new Asteroid({pos: pos, game:this}));
+    }
 }
 
-Game.prototype.remove = function(ast) {
-    let idx = this.asteroids.indexOf(ast);
-    this.asteroids.splice(idx, 1);
-    this.asteroids.push(new Asteroid({ pos: this.randomPosition(), game: this })); // might need to change 
-}
+// Game.prototype.remove = function(ast) {
+//     let idx = this.asteroids.indexOf(ast);
+//     this.asteroids.splice(idx, 1);
+//     this.asteroids.push(new Asteroid({ pos: this.randomPosition(), game: this })); // might need to change 
+// }
 module.exports = Game;
